@@ -1,6 +1,6 @@
+use crate::common::cell::{PyRwLockReadGuard, PyRwLockWriteGuard};
 use crate::pyobject::{IdProtocol, PyObjectRef, PyResult};
 use crate::vm::VirtualMachine;
-use parking_lot::{RwLockReadGuard, RwLockWriteGuard};
 use std::ops::Deref;
 
 type DynPyIter<'a> = Box<dyn ExactSizeIterator<Item = &'a PyObjectRef> + 'a>;
@@ -50,7 +50,7 @@ where
     }
 }
 
-impl<T> SimpleSeq for RwLockReadGuard<'_, T>
+impl<T> SimpleSeq for PyRwLockReadGuard<'_, T>
 where
     T: SimpleSeq,
 {
@@ -62,7 +62,7 @@ where
     }
 }
 
-impl<T> SimpleSeq for RwLockWriteGuard<'_, T>
+impl<T> SimpleSeq for PyRwLockWriteGuard<'_, T>
 where
     T: SimpleSeq,
 {
